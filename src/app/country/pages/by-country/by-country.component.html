@@ -1,22 +1,52 @@
-<h2>
-    By Country
-</h2>
+<div class="animate__animated animate__fadeInDown animate_faster">
+    <h2>
+        By Country
+    </h2>
 
-<div class="row">
-    <div class="col">
-        <app-country-input (onEnter)="search($event)" (onDebounce)="suggestions($event)"
-            placeholder="Search by Country..."></app-country-input>
+    <div class="row">
+        <div class="col">
+            <app-country-input 
+            (onEnter)="search($event)" 
+            (onDebounce)="suggestions($event)"
+            placeholder="Search by Country...">
+            </app-country-input>
+        </div>
     </div>
-</div>
 
-<hr>
+    <ul *ngIf="showSuggestions" 
+        class="list-group">
+        <li 
+        class="list-group-item list-group-item-action" 
+        *ngFor="let sugested of seggestedCountries">
+            <a 
+            class="nav-link" 
+            [routerLink]="['/country', sugested.alpha2Code]">
+            {{sugested.name}}
+            </a>
+        </li>
+        <li 
+        class="list-group-item list-group-item-action" 
+        (click)="searchSuggested(word)">
+            <a 
+            class="nav-link">
+                Search "{{word}}"
+            </a>
+        </li>
+    </ul>
 
-<div *ngIf="existError" class="alert alert-danger">
-    We can't find a country matching {{word}}
-</div>
+    <hr>
 
-<div *ngIf="!existError" class="row">
-    <div class="col">
-        <app-country-table [countries]="countries"></app-country-table>
+    <div 
+    *ngIf="existError" 
+    class="alert alert-danger">
+        We can't find a country matching {{word}}
+    </div>
+
+    <div 
+    *ngIf="!existError" 
+    class="row">
+        <div class="col">
+            <app-country-table [countries]="countries"></app-country-table>
+        </div>
     </div>
 </div>
